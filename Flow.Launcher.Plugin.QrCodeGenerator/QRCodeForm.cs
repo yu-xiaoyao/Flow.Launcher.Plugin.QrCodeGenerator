@@ -8,15 +8,23 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator;
 
 public partial class QRCodeForm : Window
 {
+    private readonly string _content;
+
+    /// <summary>
+    /// init
+    /// </summary>
+    /// <param name="content"></param>
     public QRCodeForm(string content)
     {
-        Title = "二维码";
+        _content = content;
+
+        Title = "QRCode";
         Width = 640.0;
         Height = 640.0;
-        
+
         ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        
+
         Topmost = true;
         ShowInTaskbar = false;
 
@@ -26,10 +34,14 @@ public partial class QRCodeForm : Window
 
         WindowStyle = WindowStyle.None;
 
+        Activated += Window_Activated;
         Deactivated += Window_Deactivated;
         KeyDown += Esc_Exit_KeyDown;
+    }
 
-        AddChild(new ShowQRCodePanel(content));
+    private void Window_Activated(object sender, EventArgs e)
+    {
+        AddChild(new ShowQRCodePanel(_content));
     }
 
     private void Window_Deactivated(object sender, EventArgs e)

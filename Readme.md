@@ -1,7 +1,8 @@
 Flow.Launcher.Plugin.QrCodeGenerator
 ==================
 
-## Flow.Launcher 二维码生成插件
+## Flow.Launcher QR Code Generator
+- 二维码生成插件
 
 A plugin for the [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher).
 
@@ -13,7 +14,7 @@ A plugin for the [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher)
 ```
 
 ### Install Location
-#### 1. Create a Dir 
+#### 1. Create a Dir
 ```
 %USERPROFILE%\AppData\Roaming\FlowLauncher\Plugins\QrCodeGenerator
 ```
