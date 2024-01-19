@@ -22,7 +22,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             var item1 = new Result()
             {
                 Title = "Enter Text to Generate QR Code",
-                SubTitle = query.Search,
+                SubTitle = "Show QR Code by Enter OR Preview shortcut Key",
                 IcoPath = "icon.png",
                 PreviewPanel = new Lazy<UserControl>(() => new ShowQRCodePanel(query.Search)),
                 Action = (c) => ShowImage(query.Search)
