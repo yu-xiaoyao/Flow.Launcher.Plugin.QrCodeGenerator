@@ -43,3 +43,5 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: Flow.Launcher.Plugin.QrCodeGenerator/bin/QrCodeGenerator-win-x64.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
