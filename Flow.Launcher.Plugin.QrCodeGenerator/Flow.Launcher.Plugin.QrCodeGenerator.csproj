@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows8.0</TargetFramework>
+    <AssemblyName>Flow.Launcher.Plugin.QrCodeGenerator</AssemblyName>
+    <PackageId>Flow.Launcher.Plugin.QrCodeGenerator</PackageId>
+    <Authors>kerryzhang</Authors>
+    <PackageProjectUrl>https://github.com/yu-xiaoyao/Flow.Launcher.Plugin.QrCodeGenerator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yu-xiaoyao/Flow.Launcher.Plugin.QrCodeGenerator</RepositoryUrl>
+    <PackageTags>flow-launcher flow-plugin</PackageTags>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="plugin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flow.Launcher.Plugin" Version="4.1.1" />
+    <PackageReference Include="SkiaSharp.QrCode" Version="0.7.0" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties plugin_1json__JsonSchema="https://blockprotocol.org/schemas/block-metadata.json" /></VisualStudio></ProjectExtensions>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy /Y icon.png $(OutDir)icon.png" />
+  </Target>
+
+</Project>

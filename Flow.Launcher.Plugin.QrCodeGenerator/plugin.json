@@ -1,0 +1,12 @@
+{
+    "ID": "340E73A8-A8C1-48A2-8082-C90207E097B3",
+    "ActionKeyword": "qr",
+    "Name": "QrCodeGenerator",
+    "Description": "二维码生成工具",
+    "Author": "YuXiaoyao",
+    "Version": "1.0.0",
+    "Language": "csharp",
+    "Website": "https://github.com/yu-xiaoyao/Flow.Launcher.Plugin.QrCodeGenerator",
+    "IcoPath": "icon.png",
+    "ExecuteFileName": "Flow.Launcher.Plugin.QrCodeGenerator.dll"
+}
