@@ -2,7 +2,7 @@ name: Build windows plugin package
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
     tags:
       - '*'
 
