@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows8.0</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
+	<UseWPF>true</UseWPF>
     <AssemblyName>Flow.Launcher.Plugin.QrCodeGenerator</AssemblyName>
     <PackageId>Flow.Launcher.Plugin.QrCodeGenerator</PackageId>
     <Authors>kerryzhang</Authors>

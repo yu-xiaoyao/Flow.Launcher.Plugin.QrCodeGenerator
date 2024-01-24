@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,9 +21,10 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             _context = context;
         }
 
+
         public List<Result> Query(Query query)
         {
-            var content = query.Search.TrimStart();
+            var content = query.Search.TrimEnd();
 
             var list = new List<Result>();
 
@@ -31,7 +33,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
                 Title = "Enter Text to Generate QR Code",
                 // SubTitle = "Show QR Code by Enter OR Preview shortcut Key",
                 SubTitle = content,
-                IcoPath = "icon.png",
+                IcoPath = "QrCodeGenerator-icon.png",
                 PreviewPanel = new Lazy<UserControl>(() => new ShowQRCodePanel(content)),
                 ContextData = content,
                 Action = (c) => ShowImage(content)
@@ -72,7 +74,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
 
                         return false;
                     },
-                    IcoPath = "icon.png",
+                    IcoPath = "QrCodeGenerator-icon.png",
                     Title = "Copy QRCode File",
                     SubTitle = filePath
                 }
@@ -91,6 +93,11 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             var t = new Thread(() => { Clipboard.SetFileDropList(stC); });
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
+        }
+
+        public Task<List<Result>> QueryAsync(Query query, CancellationToken token)
+        {
+            throw new NotImplementedException();
         }
     }
 }
