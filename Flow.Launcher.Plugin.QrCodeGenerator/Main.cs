@@ -21,7 +21,6 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             _context = context;
         }
 
-
         public List<Result> Query(Query query)
         {
             var content = query.Search.TrimEnd();
@@ -81,9 +80,9 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             };
         }
 
-        private static bool ShowImage(string search)
+        private bool ShowImage(string search)
         {
-            new QRCodeForm(search).Show();
+            new QRCodeForm(_context, search).Show();
             return true;
         }
 
@@ -93,11 +92,6 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             var t = new Thread(() => { Clipboard.SetFileDropList(stC); });
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
-        }
-
-        public Task<List<Result>> QueryAsync(Query query, CancellationToken token)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -23,14 +23,8 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: public win x64
-      run: dotnet publish Flow.Launcher.Plugin.QrCodeGenerator -c Release -r win-x64
-      
-    - name: copy icon
-      run: Copy-Item -Path Flow.Launcher.Plugin.QrCodeGenerator/icon.png -Destination Flow.Launcher.Plugin.QrCodeGenerator/bin/Release/win-x64/publish/icon.png
-
-    - name: zip plugin package
-      run: Compress-Archive -LiteralPath Flow.Launcher.Plugin.QrCodeGenerator/bin/Release/win-x64/publish -DestinationPath Flow.Launcher.Plugin.QrCodeGenerator/bin/QrCodeGenerator-win-x64.zip -Force
+    - name: Execute release.ps1
+      run: ./release.ps1
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3

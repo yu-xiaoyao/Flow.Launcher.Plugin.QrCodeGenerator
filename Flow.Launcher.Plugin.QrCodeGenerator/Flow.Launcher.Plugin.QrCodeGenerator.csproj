@@ -33,7 +33,7 @@
   <ProjectExtensions><VisualStudio><UserProperties plugin_1json__JsonSchema="https://blockprotocol.org/schemas/block-metadata.json" /></VisualStudio></ProjectExtensions>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy /Y icon.png $(OutDir)icon.png" />
+    <Exec Command="copy /Y QrCodeGenerator-icon.png $(OutDir)QrCodeGenerator-icon.png" />
   </Target>
 
 </Project>
