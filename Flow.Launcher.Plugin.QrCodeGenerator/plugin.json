@@ -7,6 +7,6 @@
     "Version": "1.0.3",
     "Language": "csharp",
     "Website": "https://github.com/yu-xiaoyao/Flow.Launcher.Plugin.QrCodeGenerator",
-    "IcoPath": "QrCodeGenerator-icon.png",
+    "IcoPath": "Images\\QrCodeGenerator-icon.png",
     "ExecuteFileName": "Flow.Launcher.Plugin.QrCodeGenerator.dll"
 }

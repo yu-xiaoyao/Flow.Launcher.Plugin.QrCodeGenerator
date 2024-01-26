@@ -12,6 +12,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator;
 
 public partial class QRCodeForm : Window
 {
+    private readonly PluginInitContext _context;
     private readonly string _content;
 
     private bool _fixWindows = true;
@@ -22,6 +23,7 @@ public partial class QRCodeForm : Window
     /// <param name="content"></param>
     public QRCodeForm(PluginInitContext context, string content)
     {
+        _context = context;
         _content = content;
 
         Title = "QRCode";
@@ -44,6 +46,13 @@ public partial class QRCodeForm : Window
         Deactivated += Window_Deactivated;
         KeyDown += Esc_Exit_KeyDown;
 
+        AddContextMenu();
+
+        AddQrCodePanel();
+    }
+
+    private void AddContextMenu()
+    {
         var copyAsFile = new MenuItem
         {
             Header = "Copy As File",
@@ -56,13 +65,13 @@ public partial class QRCodeForm : Window
                 if (File.Exists(filePath))
                 {
                     CopyFileToClipboard(filePath);
-                    context.API.ShowMsg("copy success");
+                    _context.API.ShowMsg("copy success");
                 }
             }
             catch (Exception e)
             {
                 var message = $"{filePath} -- {e.Message}";
-                context.API.LogException("QrCodeGenerator", message, e);
+                _context.API.LogException("QrCodeGenerator", message, e);
             }
         };
         var fixWindows = new MenuItem
@@ -79,8 +88,6 @@ public partial class QRCodeForm : Window
                 fixWindows
             }
         };
-
-        AddQrCodePanel();
     }
 
     private void Window_Activated(object sender, EventArgs e)
@@ -89,7 +96,14 @@ public partial class QRCodeForm : Window
 
     private void AddQrCodePanel()
     {
-        AddChild(new ShowQRCodePanel(_content));
+        var ww = Width;
+        var wh = Height;
+        var panel = new ShowQRCodePanel(_context, _content)
+        {
+            Width = ww,
+            Height = wh,
+        };
+        AddChild(panel);
     }
 
     private void Window_Deactivated(object sender, EventArgs e)

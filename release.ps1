@@ -1,3 +1,2 @@
 dotnet publish Flow.Launcher.Plugin.QrCodeGenerator -c Release -r win-x64
-Copy-Item -Path Flow.Launcher.Plugin.QrCodeGenerator/QrCodeGenerator-icon.png -Destination Flow.Launcher.Plugin.QrCodeGenerator/bin/Release/win-x64/publish/QrCodeGenerator-icon.png
-Compress-Archive -LiteralPath Flow.Launcher.Plugin.QrCodeGenerator/bin/Release/win-x64/publish -DestinationPath Flow.Launcher.Plugin.QrCodeGenerator/bin/QrCodeGenerator-win-x64.zip -Force
+Compress-Archive -LiteralPath Flow.Launcher.Plugin.QrCodeGenerator/bin/Release/win-x64/publish -DestinationPath Flow.Launcher.Plugin.QrCodeGenerator/bin/QrCodeGenerator.zip -Force

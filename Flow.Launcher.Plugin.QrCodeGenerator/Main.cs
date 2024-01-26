@@ -14,6 +14,8 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
     /// </summary>
     public class QrCodeGenerator : IPlugin, IContextMenu
     {
+        public static readonly string IconPath = "Images\\QrCodeGenerator-icon.png";
+
         private PluginInitContext _context;
 
         public void Init(PluginInitContext context)
@@ -27,13 +29,17 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
 
             var list = new List<Result>();
 
+            if (string.IsNullOrWhiteSpace(content))
+                return list;
+
+
             var item1 = new Result()
             {
                 Title = "Enter Text to Generate QR Code",
                 // SubTitle = "Show QR Code by Enter OR Preview shortcut Key",
                 SubTitle = content,
-                IcoPath = "QrCodeGenerator-icon.png",
-                PreviewPanel = new Lazy<UserControl>(() => new ShowQRCodePanel(content)),
+                IcoPath = IconPath,
+                PreviewPanel = new Lazy<UserControl>(() => new ShowQRCodePanel(_context, content)),
                 ContextData = content,
                 Action = (c) => ShowImage(content)
             };
@@ -73,7 +79,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
 
                         return false;
                     },
-                    IcoPath = "QrCodeGenerator-icon.png",
+                    IcoPath = IconPath,
                     Title = "Copy QRCode File",
                     SubTitle = filePath
                 }
