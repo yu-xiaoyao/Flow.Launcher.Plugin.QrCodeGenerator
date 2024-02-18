@@ -4,7 +4,7 @@
     "Name": "QrCodeGenerator",
     "Description": "二维码生成工具",
     "Author": "yu-xiaoyao",
-    "Version": "1.0.3",
+    "Version": "1.0.4",
     "Language": "csharp",
     "Website": "https://github.com/yu-xiaoyao/Flow.Launcher.Plugin.QrCodeGenerator",
     "IcoPath": "Images\\QrCodeGenerator-icon.png",
