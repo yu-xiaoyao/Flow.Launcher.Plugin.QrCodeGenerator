@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -27,25 +26,64 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
         {
             var content = query.Search.TrimEnd();
 
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                // TIP
+                return new List<Result>
+                {
+                    new()
+                    {
+                        Title = "Generate Text QR Code",
+                        SubTitle = "Enter Text to Generate QR Code",
+                        IcoPath = IconPath
+                    },
+                    new()
+                    {
+                        Title = "Resolve File QR Code",
+                        SubTitle = "Resolve QR Code File with @FilePath",
+                        IcoPath = IconPath
+                    }
+                };
+            }
+
             var list = new List<Result>();
 
-            if (string.IsNullOrWhiteSpace(content))
-                return list;
-
-
-            var item1 = new Result()
+            if (content.StartsWith("@"))
             {
-                Title = "Enter Text to Generate QR Code",
+                var codeFile = query.FirstSearch[1..];
+                if (File.Exists(codeFile))
+                {
+                    var resolve = QrCodeUtil.ResolveQrCodeFile(codeFile);
+                    if (resolve != null)
+                    {
+                        list.Add(new Result
+                        {
+                            IcoPath = IconPath,
+                            Title = $"Resolve QR Code File = {codeFile}",
+                            SubTitle = resolve,
+                            Action = (c) =>
+                            {
+                                _context.API.CopyToClipboard(resolve);
+                                return true;
+                            }
+                        });
+                    }
+                }
+            }
+
+
+            var item1 = new Result
+            {
+                IcoPath = IconPath,
+                Title = "Generate QR Code",
                 // SubTitle = "Show QR Code by Enter OR Preview shortcut Key",
                 SubTitle = content,
-                IcoPath = IconPath,
                 PreviewPanel = new Lazy<UserControl>(() => new ShowQRCodePanel(_context, content)),
                 ContextData = content,
                 Action = (c) => ShowImage(content)
             };
 
             list.Add(item1);
-
             return list;
         }
 
@@ -53,11 +91,11 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
         public List<Result> LoadContextMenus(Result selectedResult)
         {
             // _context.API.ShowMsg($"show data  = {selectedResult.ContextData.ToString()}");
-            var filePath = QrCodeUtil.CreateQrCode<string>((string)selectedResult.ContextData);
+            var filePath = QrCodeUtil.CreateQrCode<string>(selectedResult.ContextData as string);
 
-            return new List<Result>()
+            return new List<Result>
             {
-                new Result
+                new()
                 {
                     Action = _ =>
                     {

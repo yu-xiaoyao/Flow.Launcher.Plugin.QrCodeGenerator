@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using JetBrains.Annotations;
 using ZXing;
+using ZXing.Common;
 using ZXing.QrCode;
 using ZXing.QrCode.Internal;
 using ZXing.Windows.Compatibility;
@@ -140,6 +144,43 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             bitmapImage.EndInit();
 
             return (T)(object)bitmapImage;*/
+        }
+
+
+        [CanBeNull]
+        public static string ResolveQrCodeFile(string filePath)
+        {
+            if (!File.Exists(filePath)) return null;
+            try
+            {
+                var bitmap = new Bitmap(filePath);
+                return ResolveQrCode(bitmap);
+            }
+            catch (Exception e)
+            {
+                // error
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 解析二维码
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        [CanBeNull]
+        public static string ResolveQrCode(Bitmap bitmap)
+        {
+            var reader = new BarcodeReader
+            {
+                Options = new DecodingOptions
+                {
+                    PossibleFormats = new List<BarcodeFormat> { BarcodeFormat.QR_CODE }
+                }
+            };
+
+            var result = reader.Decode(bitmap);
+            return result?.Text;
         }
     }
 }
