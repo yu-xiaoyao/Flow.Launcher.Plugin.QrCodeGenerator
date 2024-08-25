@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="qr_code_generator_plugin_title">二维码生成插件</system:String>
+    <system:String x:Key="qr_code_generator_plugin_description">字符串生成二维码和解析二维码文件插件</system:String>
+    <system:String x:Key="qr_code_generator_input_qr_text">输入文本生成二维码</system:String>
+    <system:String x:Key="qr_code_generator_preview_qrcode">使用预览或回车查看二维码</system:String>
+    <system:String x:Key="qr_code_generator_input_qr_file_path">输入二维码图片路径</system:String>
+    <system:String x:Key="qr_code_generator_parse_qrcode_file">解析二维码图片内容</system:String>
+    <system:String x:Key="qr_code_generator_qrcode_file_content">二维码图片内容: {0}</system:String>
+    <system:String x:Key="qr_code_generator_copy_file">复制生成二维码文件</system:String>
+
+</ResourceDictionary>

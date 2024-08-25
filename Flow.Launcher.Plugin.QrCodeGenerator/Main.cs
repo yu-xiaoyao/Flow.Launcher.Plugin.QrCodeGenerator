@@ -11,7 +11,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
     /// <summary>
     /// Flow plugin entrance
     /// </summary>
-    public class QrCodeGenerator : IPlugin, IContextMenu
+    public class QrCodeGenerator : IPlugin, IContextMenu, IPluginI18n
     {
         public static readonly string IconPath = "Images\\QrCodeGenerator-icon.png";
 
@@ -33,57 +33,66 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
                 {
                     new()
                     {
-                        Title = "Generate Text QR Code",
-                        SubTitle = "Enter Text to Generate QR Code",
-                        IcoPath = IconPath
+                        Title = _context.API.GetTranslation("qr_code_generator_input_qr_text"),
+                        SubTitle = _context.API.GetTranslation("qr_code_generator_preview_qrcode"),
+                        IcoPath = IconPath,
+                        AutoCompleteText = $"{query.ActionKeyword} ",
+                        Action = _ =>
+                        {
+                            _context.API.ChangeQuery($"{query.ActionKeyword} ");
+                            return false;
+                        }
                     },
                     new()
                     {
-                        Title = "Resolve File QR Code",
-                        SubTitle = "Resolve QR Code File with @FilePath",
-                        IcoPath = IconPath
+                        Title = _context.API.GetTranslation("qr_code_generator_input_qr_file_path"),
+                        SubTitle = _context.API.GetTranslation("qr_code_generator_parse_qrcode_file"),
+                        IcoPath = IconPath,
+                        AutoCompleteText = $"{query.ActionKeyword} @",
+                        Action = _ =>
+                        {
+                            _context.API.ChangeQuery($"{query.ActionKeyword} @");
+                            return false;
+                        }
                     }
                 };
             }
 
             var list = new List<Result>();
-
-            if (content.StartsWith("@"))
+            var qrCodeItem = new Result
             {
-                var codeFile = query.FirstSearch[1..];
-                if (File.Exists(codeFile))
-                {
-                    var resolve = QrCodeUtil.ResolveQrCodeFile(codeFile);
-                    if (resolve != null)
-                    {
-                        list.Add(new Result
-                        {
-                            IcoPath = IconPath,
-                            Title = $"Resolve QR Code File = {codeFile}",
-                            SubTitle = resolve,
-                            Action = (c) =>
-                            {
-                                _context.API.CopyToClipboard(resolve);
-                                return true;
-                            }
-                        });
-                    }
-                }
-            }
-
-
-            var item1 = new Result
-            {
-                IcoPath = IconPath,
-                Title = "Generate QR Code",
-                // SubTitle = "Show QR Code by Enter OR Preview shortcut Key",
+                Title = _context.API.GetTranslation("qr_code_generator_preview_qrcode"),
                 SubTitle = content,
+                IcoPath = IconPath,
                 PreviewPanel = new Lazy<UserControl>(() => new ShowQRCodePanel(_context, content)),
                 ContextData = content,
                 Action = (c) => ShowImage(content)
             };
+            list.Add(qrCodeItem);
 
-            list.Add(item1);
+            if (!content.StartsWith("@"))
+                return list;
+            var codeFile = query.FirstSearch[1..];
+            if (!File.Exists(codeFile))
+                return list;
+
+            var resolve = QrCodeUtil.ResolveQrCodeFile(codeFile);
+            if (resolve != null)
+            {
+                list.Add(new Result
+                {
+                    Title = string.Format(_context.API.GetTranslation("qr_code_generator_qrcode_file_content"),
+                        codeFile),
+                    SubTitle = resolve,
+                    IcoPath = IconPath,
+                    Action = (c) =>
+                    {
+                        _context.API.CopyToClipboard(resolve);
+                        return true;
+                    }
+                });
+            }
+
             return list;
         }
 
@@ -104,7 +113,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
                             if (File.Exists(filePath))
                             {
                                 CopyFileToClipboard(filePath);
-                                _context.API.ShowMsg("copy success");
+                                // _context.API.ShowMsg("copy success");
                                 // use this will cause error
                                 // _context.API.CopyToClipboard(filePath);
                             }
@@ -118,7 +127,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
                         return false;
                     },
                     IcoPath = IconPath,
-                    Title = "Copy QRCode File",
+                    Title = _context.API.GetTranslation("qr_code_generator_copy_file"),
                     SubTitle = filePath
                 }
             };
@@ -136,6 +145,16 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             var t = new Thread(() => { Clipboard.SetFileDropList(stC); });
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
+        }
+
+        public string GetTranslatedPluginTitle()
+        {
+            return _context.API.GetTranslation("qr_code_generator_plugin_title");
+        }
+
+        public string GetTranslatedPluginDescription()
+        {
+            return _context.API.GetTranslation("qr_code_generator_plugin_description");
         }
     }
 }
