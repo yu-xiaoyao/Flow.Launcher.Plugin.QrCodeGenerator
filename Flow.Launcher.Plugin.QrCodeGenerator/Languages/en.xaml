@@ -12,5 +12,7 @@
     <system:String x:Key="qr_code_generator_parse_qrcode_file">Parse the content of the QR code image</system:String>
     <system:String x:Key="qr_code_generator_qrcode_file_content">QRCode Content: {0}</system:String>
     <system:String x:Key="qr_code_generator_copy_file">Copy generated QR code file</system:String>
+    <system:String x:Key="qr_code_generator_clipboard_image">Qr code of the clipboard image</system:String>
+    <system:String x:Key="qr_code_generator_cp_num_index">Clipboard QR Code {0}</system:String>
 
 </ResourceDictionary>

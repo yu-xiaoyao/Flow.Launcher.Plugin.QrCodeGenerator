@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Media;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using ZXing;
@@ -11,7 +11,6 @@ using ZXing.Common;
 using ZXing.QrCode;
 using ZXing.QrCode.Internal;
 using ZXing.Windows.Compatibility;
-
 
 namespace Flow.Launcher.Plugin.QrCodeGenerator
 {
@@ -181,6 +180,31 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
 
             var result = reader.Decode(bitmap);
             return result?.Text;
+        }
+
+        public static ZXing.Result[] ResolveClipBoardQrCodeList()
+        {
+            if (!Clipboard.ContainsImage()) return Array.Empty<ZXing.Result>();
+
+            try
+            {
+                var bitmapSource = Clipboard.GetImage();
+
+                var reader = new BarcodeReader
+                {
+                    Options = new DecodingOptions
+                    {
+                        PossibleFormats = new List<BarcodeFormat> { BarcodeFormat.QR_CODE }
+                    }
+                };
+                return reader.DecodeMultiple(bitmapSource);
+            }
+            catch (Exception e)
+            {
+                //TODO print e message
+            }
+
+            return Array.Empty<ZXing.Result>();
         }
     }
 }

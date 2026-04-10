@@ -29,7 +29,7 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             if (string.IsNullOrWhiteSpace(content))
             {
                 // TIP
-                return new List<Result>
+                var result = new List<Result>
                 {
                     new()
                     {
@@ -56,6 +56,16 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
                         }
                     }
                 };
+
+                var detectClipBoardImageQrCode =
+                    Application.Current.Dispatcher.Invoke(_detectClipBoardImageQrCode);
+                // var detectClipBoardImageQrCode = _detectClipBoardImageQrCode();
+                if (detectClipBoardImageQrCode.Count > 0)
+                {
+                    result.AddRange(detectClipBoardImageQrCode);
+                }
+
+                return result;
             }
 
             var list = new List<Result>();
@@ -155,6 +165,36 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
         public string GetTranslatedPluginDescription()
         {
             return _context.API.GetTranslation("qr_code_generator_plugin_description");
+        }
+
+
+        public List<Result> _detectClipBoardImageQrCode()
+        {
+            var list = new List<Result>();
+
+            var qrList = QrCodeUtil.ResolveClipBoardQrCodeList();
+            if (qrList.Length > 0)
+            {
+                for (var i = 0; i < qrList.Length; i++)
+                {
+                    var r = qrList[i];
+                    var text = r.Text;
+                    list.Add(new Result
+                    {
+                        Title = string.Format(_context.API.GetTranslation("qr_code_generator_cp_num_index"), i + 1),
+                        SubTitle = text,
+                        IcoPath = IconPath,
+                        CopyText = text,
+                        Action = _ =>
+                        {
+                            _context.API.CopyToClipboard(text, showDefaultNotification: false);
+                            return true;
+                        }
+                    });
+                }
+            }
+
+            return list;
         }
     }
 }
