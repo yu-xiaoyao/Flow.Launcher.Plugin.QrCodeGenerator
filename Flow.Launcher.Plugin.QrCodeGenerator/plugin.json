@@ -4,7 +4,7 @@
     "Name": "QrCodeGenerator",
     "Description": "Qr Code Generator or Parser Qr Code file Plugin",
     "Author": "yu-xiaoyao",
-    "Version": "1.0.6",
+    "Version": "1.0.7",
     "Language": "csharp",
     "Website": "https://github.com/yu-xiaoyao/Flow.Launcher.Plugin.QrCodeGenerator",
     "IcoPath": "Images\\QrCodeGenerator-icon.png",
