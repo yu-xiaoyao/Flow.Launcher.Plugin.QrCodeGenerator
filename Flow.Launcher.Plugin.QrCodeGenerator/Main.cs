@@ -86,18 +86,20 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
             if (!File.Exists(codeFile))
                 return list;
 
-            var resolve = QrCodeUtil.ResolveQrCodeFile(codeFile);
-            if (resolve != null)
+            var rs = QrCodeUtil.ResolveQrCodeFile(codeFile);
+            for (var i = 0; i < rs.Length; i++)
             {
+                var qrCode = rs[i];
+                var qrCodeContent = qrCode.Text;
                 list.Add(new Result
                 {
                     Title = string.Format(_context.API.GetTranslation("qr_code_generator_qrcode_file_content"),
-                        codeFile),
-                    SubTitle = resolve,
+                        $"{i + 1}", codeFile),
+                    SubTitle = qrCodeContent,
                     IcoPath = IconPath,
                     Action = (c) =>
                     {
-                        _context.API.CopyToClipboard(resolve);
+                        _context.API.CopyToClipboard(qrCodeContent);
                         return true;
                     }
                 });

@@ -146,20 +146,27 @@ namespace Flow.Launcher.Plugin.QrCodeGenerator
         }
 
 
-        [CanBeNull]
-        public static string ResolveQrCodeFile(string filePath)
+        public static ZXing.Result[] ResolveQrCodeFile(string filePath)
         {
             if (!File.Exists(filePath)) return null;
             try
             {
                 var bitmap = new Bitmap(filePath);
-                return ResolveQrCode(bitmap);
+                // return ResolveQrCode(bitmap);
+                var reader = new BarcodeReader
+                {
+                    Options = new DecodingOptions
+                    {
+                        PossibleFormats = new List<BarcodeFormat> { BarcodeFormat.QR_CODE }
+                    }
+                };
+                return reader.DecodeMultiple(bitmap);
             }
             catch (Exception e)
             {
                 // error
-                return null;
             }
+            return Array.Empty<ZXing.Result>();
         }
 
         /// <summary>

@@ -10,7 +10,7 @@
     <system:String x:Key="qr_code_generator_preview_qrcode">使用预览或回车查看二维码</system:String>
     <system:String x:Key="qr_code_generator_input_qr_file_path">输入二维码图片路径</system:String>
     <system:String x:Key="qr_code_generator_parse_qrcode_file">解析二维码图片内容</system:String>
-    <system:String x:Key="qr_code_generator_qrcode_file_content">二维码图片内容: {0}</system:String>
+    <system:String x:Key="qr_code_generator_qrcode_file_content">{0} 二维码图片内容: {1}</system:String>
     <system:String x:Key="qr_code_generator_copy_file">复制生成二维码文件</system:String>
     <system:String x:Key="qr_code_generator_clipboard_image">剪贴板图片二维码</system:String>
     <system:String x:Key="qr_code_generator_cp_num_index">剪贴板二维码 {0}</system:String>
